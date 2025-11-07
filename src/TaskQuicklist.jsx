@@ -12,7 +12,7 @@ export default function TaskQuicklist() {
   function addTask() {
     const value = text.trim();
     if (!value) return;
-    setTasks(prev => [
+    setTasks((prev) => [
       ...prev,
       { id: Date.now(), title: value, done: false },
     ]);
@@ -20,12 +20,15 @@ export default function TaskQuicklist() {
   }
 
   function toggleTask(id) {
-    setTasks(prev =>
-      prev.map(t => (t.id === id ? { ...t, done: !t.done } : t))
+    setTasks((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, done: !t.done } : t))
     );
   }
 
-  const doneCount = tasks.filter(t => t.done).length;
+  function removeTask(id) {
+    setTasks((prev) => prev.filter((task) => task.id !== id));
+  }
+  const doneCount = tasks.filter((t) => t.done).length;
   const total = tasks.length;
 
   return (
@@ -38,21 +41,23 @@ export default function TaskQuicklist() {
       <div>
         <input
           value={text}
-          onChange={e => setText(e.target.value)}
+          onChange={(e) => setText(e.target.value)}
           placeholder="Add a task..."
         />
         <button onClick={addTask}>Add</button>
       </div>
 
       <ul>
-        {tasks.map(t => (
+        {tasks.map((t) => (
           <li key={t.id}>
             <label>
+              <button onClick={() => removeTask(t.id)}> Delete </button>
               <input
                 type="checkbox"
                 checked={t.done}
                 onChange={() => toggleTask(t.id)}
               />
+
               {t.title}
             </label>
           </li>
