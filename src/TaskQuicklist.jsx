@@ -11,6 +11,7 @@ export default function TaskQuicklist() {
     return stored ? JSON.parse(stored) : initialTasks;
   });
   const [text, setText] = useState("");
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -37,7 +38,11 @@ export default function TaskQuicklist() {
   }
   const doneCount = tasks.filter((t) => t.done).length;
   const total = tasks.length;
-
+  const visibleTasks = tasks.filter((task) => {
+    if (filter === "active") return !task.done;
+    if (filter === "done") return task.done;
+    return true;
+  });
   return (
     <div>
       <h2>Today’s Reactivation Tasks</h2>
@@ -53,9 +58,29 @@ export default function TaskQuicklist() {
         />
         <button onClick={addTask}>Add</button>
       </div>
+      <div>
+        <button
+          onClick={() => setFilter("all")}
+          style={filter === "all" ? { fontWeight: "bold" } : {}}
+        >
+          All
+        </button>
+        <button
+          onClick={() => setFilter("active")}
+          style={filter === "active" ? { fontWeight: "bold" } : {}}
+        >
+          Active
+        </button>
+        <button
+          onClick={() => setFilter("done")}
+          style={filter === "done" ? { fontWeight: "bold" } : {}}
+        >
+          Done
+        </button>
+      </div>
 
       <ul>
-        {tasks.map((t) => (
+        {visibleTasks.map((t) => (
           <li key={t.id}>
             <label>
               <button onClick={() => removeTask(t.id)}> Delete </button>
