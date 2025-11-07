@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const initialTasks = [
   { id: 1, title: "Review JS", done: false },
@@ -6,8 +6,15 @@ const initialTasks = [
 ];
 
 export default function TaskQuicklist() {
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, setTasks] = useState(() => {
+    const stored = localStorage.getItem("tasks");
+    return stored ? JSON.parse(stored) : initialTasks;
+  });
   const [text, setText] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   function addTask() {
     const value = text.trim();
