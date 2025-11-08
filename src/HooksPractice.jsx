@@ -1,5 +1,6 @@
-import { useReducer, useState, useContext } from "react";
-import { ThemeContext } from "./ThemeContext.jsx";
+// src/HooksPractice.jsx
+import { useReducer, useState } from "react";
+import { useTheme } from "./useTheme.js";
 
 const initialTasks = [
   { id: 1, title: "Learn hooks", done: false },
@@ -26,8 +27,8 @@ function tasksReducer(state, action) {
 }
 
 export default function HooksPractice() {
-  // 👇 THIS is the important line
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  // 👇 now this is clean
+  const { theme, toggleTheme } = useTheme();
 
   const [text, setText] = useState("");
   const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);
@@ -60,6 +61,7 @@ export default function HooksPractice() {
           </button>
         </div>
 
+        {/* input + add */}
         <div className="flex gap-2 mb-4 items-center">
           <input
             value={text}
@@ -78,6 +80,7 @@ export default function HooksPractice() {
           </button>
         </div>
 
+        {/* list */}
         <ul className="space-y-3">
           {tasks.map((t) => (
             <li
