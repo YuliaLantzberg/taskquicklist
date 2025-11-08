@@ -1,14 +1,13 @@
-import './App.css'
-import TaskQuicklist from "./TaskQuicklist";
-
+import "./App.css";
+import HooksPractice from "./HooksPractice";
+// import TaskQuicklist from "./TaskQuicklist";
 
 function App() {
-
   return (
     <>
-   <TaskQuicklist />
+      <HooksPractice />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
